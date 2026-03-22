@@ -16,6 +16,7 @@
 - [ ] **Pagos:** Investigar e implementar el flujo de suscripciones con Stripe (Webhooks).
 - [ ] **Docs:** Personalizar la documentación de Swagger (`/docs`) con ejemplos de uso del Asistente.
 - [ ] **Testing:** Crear una suite de pruebas unitarias con `pytest` para los endpoints principales.
+- [ ] **License:** Revisar el tipo de licencia que vamos a utilizar en el proyecto del Hackathon.
 
 ## ✅ COMPLETADO
 - [x] Estructura base del proyecto con FastAPI.
