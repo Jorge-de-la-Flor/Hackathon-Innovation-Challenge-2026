@@ -245,14 +245,12 @@ source = { virtual = "." }
 dependencies = [
     { name = "fastapi", extra = ["standard"] },
     { name = "pdoc" },
-    { name = "python-dotenv" },
 ]
 
 [package.metadata]
 requires-dist = [
     { name = "fastapi", extras = ["standard"], specifier = ">=0.135.1" },
     { name = "pdoc", specifier = ">=16.0.0" },
-    { name = "python-dotenv", specifier = ">=1.2.2" },
 ]
 
 [[package]]
