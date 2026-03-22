@@ -1,3 +1,3 @@
-English | [Español](README.es.md)
+[English](README.md) | Español
 
 # Hackathon-Innovation-Challenge-2026
