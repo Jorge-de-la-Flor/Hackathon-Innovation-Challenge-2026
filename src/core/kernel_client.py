@@ -12,6 +12,22 @@ async def process_text(text: str, profile: str) -> Dict:
     return result
 """
 
+# TODO: Lidya, cuando tengas el kernel listo, reemplaza la implementación de `process_text`. EJEMPLO DE COMO PODRÏAS PONERLO:
+#
+# Ejemplo de cómo podría verse:
+#
+# from lidya_kernel import run_kernel  # Ajusta el nombre según lo que tú expongas
+#
+# async def process_text(text: str, profile: str) -> Dict:
+#     # Si run_kernel es asíncrono:
+#     # result = await run_kernel(text=text, profile=profile)
+#     #
+#     # Si es síncrono, ejecútalo en un threadpool:
+#     # result = await asyncio.to_thread(run_kernel, text=text, profile=profile)
+#     # return result
+#     raise NotImplementedError("Reemplazar con la integración real de Semantic Kernel.")
+
+
 """
 Módulo del Cliente del Kernel de Procesamiento.
 
