@@ -4,7 +4,7 @@ Conecta los endpoints con la lógica de procesamiento del Kernel.
 """
 
 from fastapi import APIRouter, HTTPException
-from src.api.schemas import ProcessRequest, ProcessResponse
+from src.models.schemas import ProcessRequest, ProcessResponse
 from src.core.kernel_client import process_text
 
 router = APIRouter()
