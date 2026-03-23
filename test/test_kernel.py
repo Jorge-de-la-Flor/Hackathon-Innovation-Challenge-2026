@@ -36,7 +36,6 @@ async def main():
 
 if __name__ == "__main__":
     try:
-        # Ejecución del bucle de eventos de asyncio
         asyncio.run(main())
     except KeyboardInterrupt:
         print("\nPrueba cancelada por el usuario.")

@@ -21,7 +21,6 @@ async def process_text(text: str, profile: str) -> Dict:
     Intenta usar la IA real y cae a un Mock determinista si hay errores.
     """
     try:
-        # --- 1. INTENTO DE PROCESAMIENTO REAL (KERNEL DE IA) ---
         kernel = Kernel()
 
         # Configuración del servicio de Azure OpenAI usando los settings del proyecto
@@ -63,7 +62,7 @@ async def process_text(text: str, profile: str) -> Dict:
         # Invocación al modelo de lenguaje
         result = await kernel.invoke(func, input=text, profile=profile)
         
-        # Limpieza de Markdown (posibles bloques ```json ... ```)
+        # Limpieza de Markdown
         raw_result = str(result).strip()
         if raw_result.startswith("```json"):
             raw_result = raw_result.replace("```json", "").replace("```", "").strip()
@@ -71,9 +70,8 @@ async def process_text(text: str, profile: str) -> Dict:
         return json.loads(raw_result)
 
     except Exception as e:
-        # --- 2. LÓGICA DE ROBUSTEZ (FALLBACK A MOCK) ---
-        # Si Lidya no configuró bien las keys o el servicio cae, el sistema NO se detiene.
-        logger.error(f"⚠️ Error crítico en IA: {e}. Activando motor de respaldo.")
+
+        logger.error(f"Error crítico en IA: {e}. Activando motor de respaldo.")
         
         # Pequeña latencia para simular procesamiento
         await asyncio.sleep(0.2)
