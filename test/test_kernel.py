@@ -5,7 +5,6 @@ o que el sistema de robustez (Mock) se active en caso de fallo.
 """
 
 import asyncio
-import json
 import logging
 from src.core.kernel_client import process_text
 
@@ -17,7 +16,7 @@ async def run_test_suite():
     Ejecuta una serie de pruebas sobre el motor de procesamiento.
     """
     print("\n" + "="*60)
-    print("🚀 ACCESAI - RUNNER DE PRUEBAS TÉCNICAS")
+    print("ACCESAI - RUNNER DE PRUEBAS TÉCNICAS")
     print("="*60)
     
     test_case = (
@@ -39,19 +38,19 @@ async def run_test_suite():
             # Validación de campos mínimos requeridos
             required_keys = ["simplified_text", "steps", "tone"]
             if all(key in result for key in required_keys):
-                print("✅ Estructura JSON válida.")
-                print(f"📄 Resumen: {result['simplified_text'][:80]}...")
-                print(f"🎯 Tono: {result['tone']}")
+                print("Estructura JSON válida.")
+                print(f"Resumen: {result['simplified_text'][:80]}...")
+                print(f"Tono: {result['tone']}")
                 if "explanation" in result:
-                    print(f"💡 Info: {result['explanation'][:50]}...")
+                    print(f"Info: {result['explanation'][:50]}...")
             else:
-                print("⚠️ Advertencia: Faltan campos en la respuesta JSON.")
+                print("Advertencia: Faltan campos en la respuesta JSON.")
                 
         except Exception as e:
-            print(f"❌ Fallo crítico en el test para {profile}: {e}")
+            print(f"Fallo crítico en el test para {profile}: {e}")
 
     print("\n" + "="*60)
-    print("✅ CICLO DE PRUEBAS COMPLETADO")
+    print("CICLO DE PRUEBAS COMPLETADO")
     print("="*60 + "\n")
 
 if __name__ == "__main__":
