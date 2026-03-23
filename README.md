@@ -1,4 +1,4 @@
-English | [Español](README.md)
+English | [Español](README.es.md)
 
 # 🧠 AccesAI — Cognitive Accessibility Assistant
 
