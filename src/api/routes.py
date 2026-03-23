@@ -1,49 +1,22 @@
 """
-Módulo de Definición de Endpoints de la API.
-
-Este módulo contiene las rutas de FastAPI para la interacción con el núcleo 
-de procesamiento de texto. Define los puntos de entrada para la salud del 
-servicio y el procesamiento principal de solicitudes.
+Definición de rutas de la API.
+Conecta los endpoints con la lógica de procesamiento del Kernel.
 """
 
 from fastapi import APIRouter, HTTPException
-from src.models.schemas import ProcessRequest, ProcessResponse
+from src.api.schemas import ProcessRequest, ProcessResponse
 from src.core.kernel_client import process_text
 
 router = APIRouter()
 
-@router.get("/health")
-async def health():
-    """
-    Verifica el estado de salud de la API.
-
-    Returns:
-        dict: Un diccionario con el estado operativo del servicio.
-    """
-    return {"status": "ok"}
-
-
-@router.post("/process", response_model=ProcessResponse)
+@router.post("/process", response_model=ProcessResponse, tags=["AI Processing"])
 async def process(request: ProcessRequest):
     """
-    Procesa una solicitud de texto utilizando un perfil específico.
-
-    Este endpoint recibe un texto y un perfil, delega el procesamiento al
-    kernel_client y devuelve la respuesta estructurada.
-
-    Args:
-        request (ProcessRequest): El objeto de solicitud con el texto y el perfil.
-
-    Returns:
-        ProcessResponse: El resultado procesado y estructurado.
-
-    Raises:
-        HTTPException: Error 500 si ocurre una falla en la lógica de procesamiento.
+    Endpoint para procesar y adaptar texto según el perfil cognitivo.
     """
     try:
-        # Procesamiento asíncrono del texto
+        # Llamada al motor de procesamiento (Kernel)
         result = await process_text(request.text, request.profile)
-        return ProcessResponse(**result)
+        return result
     except Exception as e:
-        # Captura de errores inesperados para evitar caídas del servicio
-        raise HTTPException(status_code=500, detail=str(e))
+        raise HTTPException(status_code=500, detail=f"Error en el procesamiento: {str(e)}")
