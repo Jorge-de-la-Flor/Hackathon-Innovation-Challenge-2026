@@ -2,6 +2,8 @@ English | [Español](README.es.md)
 
 # Hackathon-Innovation-Challenge-2026
 
+
+
 ```
 Hackathon-Innovation-Challenge-2026
 ├─ .python-version
@@ -23,8 +25,12 @@ Hackathon-Innovation-Challenge-2026
 │  ├─ models
 │  │  ├─ __init__.py
 │  │  └─ schemas.py
+│  ├─ ui
+│  │  ├─ __init__.py
+│  │  └─ app.py
 │  └─ utils
 │     └─ __init__.py
+├─ test
 └─ uv.lock
 
 ```

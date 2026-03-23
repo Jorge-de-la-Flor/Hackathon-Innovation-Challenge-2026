@@ -9,6 +9,7 @@
 
 ## 🟡 PRIORIDAD MEDIA (Desarrollo / DevOps)
 
+- [ ] **API:** Ajustar si el backend corre en otro puerto/host(ui/app.py).
 - [ ] **Infraestructura:** Configurar el despliegue inicial en AWS (Lambda o App Runner).
 - [ ] **Seguridad:** Crear un archivo `.env.example` con las llaves de ejemplo para el repositorio.
 - [ ] **Middleware:** Reemplazar el manejo de errores genérico `str(e)` por un sistema de Logging profesional.
