@@ -1,44 +1,64 @@
+"""
+Script de Pruebas de Integración - Equipo 7.
+Valida que el motor de IA (Kernel) responda correctamente para todos los perfiles,
+o que el sistema de robustez (Mock) se active en caso de fallo.
+"""
+
 import asyncio
 import json
+import logging
 from src.core.kernel_client import process_text
 
-async def main():
+# Desactivar logs innecesarios para una salida de prueba limpia
+logging.getLogger("semantic_kernel").setLevel(logging.WARNING)
+
+async def run_test_suite():
     """
-    Script de prueba para validar la integración con el Kernel de IA.
-    Prueba los diferentes perfiles de accesibilidad cognitiva.
+    Ejecuta una serie de pruebas sobre el motor de procesamiento.
     """
-    print("Iniciando prueba del motor de IA - Equipo 7")
-    print("=" * 50)
+    print("\n" + "="*60)
+    print("🚀 ACCESAI - RUNNER DE PRUEBAS TÉCNICAS")
+    print("="*60)
     
-    # Texto de prueba con alta carga cognitiva
-    input_text = (
-        "Se recomienda encarecidamente la desconexión del suministro eléctrico "
-        "antes de proceder con la manipulación de los componentes internos del hardware."
+    test_case = (
+        "Para proceder con el restablecimiento de la contraseña, el usuario debe "
+        "acceder al portal de seguridad, validar su identidad mediante un código "
+        "de un solo uso (OTP) y posteriormente definir una nueva cadena alfanumérica."
     )
     
     profiles = ["adhd", "autism", "general"]
     
     for profile in profiles:
-        print(f"\n--- Probando perfil: {profile.upper()} ---")
+        print(f"\n[TEST] Perfil: {profile.upper()}")
+        print("-" * 30)
+        
         try:
-            # Llamada al cliente del kernel (real con fallback a mock)
-            result = await process_text(input_text, profile)
+            # Ejecución del proceso (con lógica de robustez interna)
+            result = await process_text(test_case, profile)
             
-            # Formateo de salida para mejor lectura
-            print(json.dumps(result, indent=4, ensure_ascii=False))
-            
+            # Validación de campos mínimos requeridos
+            required_keys = ["simplified_text", "steps", "tone"]
+            if all(key in result for key in required_keys):
+                print("✅ Estructura JSON válida.")
+                print(f"📄 Resumen: {result['simplified_text'][:80]}...")
+                print(f"🎯 Tono: {result['tone']}")
+                if "explanation" in result:
+                    print(f"💡 Info: {result['explanation'][:50]}...")
+            else:
+                print("⚠️ Advertencia: Faltan campos en la respuesta JSON.")
+                
         except Exception as e:
-            # Captura errores específicos de la llamada sin detener el proceso
-            print(f"Error procesando el perfil {profile}: {e}")
+            print(f"❌ Fallo crítico en el test para {profile}: {e}")
 
-    print("\n" + "=" * 50)
-    print("Pruebas finalizadas.")
+    print("\n" + "="*60)
+    print("✅ CICLO DE PRUEBAS COMPLETADO")
+    print("="*60 + "\n")
 
 if __name__ == "__main__":
     try:
-        asyncio.run(main())
+        asyncio.run(run_test_suite())
     except KeyboardInterrupt:
-        print("\nPrueba cancelada por el usuario.")
+        print("\nTest interrumpido por el usuario.")
     except Exception as e:
         print(f"\nError fatal en el runner de pruebas: {e}")
         
