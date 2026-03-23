@@ -1,102 +1,69 @@
-# TODO: VERSION MOCK.
-# TODO: LIDYA, CUANDO TENGAS EL KERNEL LISTO, REEMPLAZAS NOMÁS
-"""
-# Aqui Importa el kernel
-from lidya_kernel import run_kernel   # ajusta nombre según lo que ella entregue
-
-async def process_text(text: str, profile: str) -> Dict:
-    # Si run_kernel es asíncrono:
-    result = await run_kernel(text, profile)
-    # Si es síncrono, ejecútalo en threadpool:
-    # result = await asyncio.to_thread(run_kernel, text, profile)
-    return result
-"""
-
-# TODO: Lidya, cuando tengas el kernel listo, reemplaza la implementación de `process_text`. EJEMPLO DE COMO PODRÏAS PONERLO:
-#
-# Ejemplo de cómo podría verse:
-#
-# from lidya_kernel import run_kernel  # Ajusta el nombre según lo que tú expongas
-#
-# async def process_text(text: str, profile: str) -> Dict:
-#     # Si run_kernel es asíncrono:
-#     # result = await run_kernel(text=text, profile=profile)
-#     #
-#     # Si es síncrono, ejecútalo en un threadpool:
-#     # result = await asyncio.to_thread(run_kernel, text=text, profile=profile)
-#     # return result
-#     raise NotImplementedError("Reemplazar con la integración real de Semantic Kernel.")
-
-
-"""
-Módulo del Cliente del Kernel de Procesamiento.
-
-Este módulo actúa como la interfaz principal con el motor de inteligencia 
-artificial (Semantic Kernel / Azure OpenAI). Actualmente contiene una 
-implementación simulada para validar el flujo de datos según diferentes 
-perfiles de accesibilidad cognitiva.
-"""
-
-import asyncio
+import json
+import logging
 from typing import Dict
+from semantic_kernel import Kernel
+from semantic_kernel.connectors.ai.open_ai import AzureChatCompletion
+from src.core.config import settings
+
+logger = logging.getLogger(__name__)
 
 async def process_text(text: str, profile: str) -> Dict:
     """
-    Procesa un texto de entrada adaptándolo al perfil de accesibilidad solicitado.
-
-    Esta función simula la interacción con un modelo de lenguaje (LLM). 
-    Aplica transformaciones de tono, estructura y simplificación basadas 
-    en necesidades específicas de carga cognitiva (como TDAH o Autismo).
-
-    Args:
-        text (str): El contenido original que se desea simplificar o adaptar.
-        profile (str): El identificador del perfil de accesibilidad 
-            (ej. "adhd", "autism", "general").
-
-    Returns:
-        Dict: Un diccionario con la siguiente estructura:
-            - simplified_text (str): El texto procesado y adaptado.
-            - steps (list): Pasos accionables recomendados.
-            - tone (str): Descripción del tono comunicativo aplicado.
-            - explanation (str): Justificación técnica de la adaptación.
-
-    Note:
-        Actualmente incluye un delay de 0.5s para simular latencia de red.
-        Debe reemplazarse con la integración real de Semantic Kernel.
+    Motor de IA de Lidya: Conexión real con Azure OpenAI.
     """
-    await asyncio.sleep(0.5)  # Simular latencia de API externa
+    try:
+        kernel = Kernel()
 
-    # Simulación de lógica de procesamiento según perfil
-    if profile == "adhd":
-        simplified = f"[ADHD] {text[:150]}..."
-        steps = [
-            "1. Lee la idea principal", 
-            "2. Divide en tareas pequeñas", 
-            "3. Prioriza"
-        ]
-        tone = "Ve paso a paso, con calma."
-        explanation = "Adaptado para reducir distracciones y mantener el enfoque."
-        
-    elif profile == "autism":
-        simplified = f"[Autism] {text[:150]}..."
-        steps = [
-            "1. Identifica el tema central", 
-            "2. Extrae datos clave", 
-            "3. Organiza secuencialmente"
-        ]
-        tone = "Lenguaje estructurado, sin ambigüedades."
-        explanation = "Estructurado para mayor claridad y predictibilidad."
-        
-    else:
-        simplified = text
-        steps = []
-        tone = ""
-        explanation = "Perfil general sin adaptaciones específicas."
+        # Usamos los nombres exactos de tu config.py (en minúsculas)
+        kernel.add_service(
+            AzureChatCompletion(
+                deployment_name=settings.azure_openai_deployment,
+                endpoint=settings.azure_openai_endpoint,
+                api_key=settings.azure_openai_api_key,
+                api_version="2024-06-01" 
+            )
+        )
 
-    return {
-        "simplified_text": simplified,
-        "steps": steps,
-        "tone": tone,
-        "explanation": explanation
-    }
-    
+        prompt_template = """
+        Eres un experto en accesibilidad cognitiva. 
+        Adapta el siguiente texto para un perfil de: {{ $profile }}.
+        
+        REGLAS:
+        - adhd: Frases cortas, negritas en palabras clave, máximo 3 pasos.
+        - autism: Lenguaje literal, sin metáforas, estructura clara.
+        - general: Palabras sencillas y tono amable.
+
+        Responde ÚNICAMENTE en formato JSON:
+        {
+            "simplified_text": "texto adaptado",
+            "steps": ["paso 1", "paso 2"],
+            "tone": "descripción del tono",
+            "explanation": "por qué se adaptó así"
+        }
+
+        Texto a adaptar: {{ $input }}
+        """
+
+        func = kernel.add_function(
+            function_name="adapt_text",
+            plugin_name="AccessibilityPlugin",
+            prompt=prompt_template
+        )
+
+        result = await kernel.invoke(func, input=text, profile=profile)
+
+        # Limpieza del resultado por si el modelo envía etiquetas de markdown
+        raw_result = str(result).strip()
+        if raw_result.startswith("```json"):
+            raw_result = raw_result.replace("```json", "").replace("```", "").strip()
+        
+        return json.loads(raw_result)
+
+    except Exception as e:
+        logger.error(f"Error en el Kernel de Lidya: {e}")
+        return {
+            "simplified_text": "Hubo un error al procesar el texto.",
+            "steps": [],
+            "tone": "Error",
+            "explanation": str(e)
+        }
