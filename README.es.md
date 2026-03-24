@@ -19,6 +19,7 @@ Nuestra misión es eliminar las barreras de comprensión en información técnic
 | Frontend           | Streamlit (Interfaz accesible en src/ui)         |
 | Gestor de Paquetes | uv (Fast Python package installer)               |
 | Arquitectura       | Clean Architecture con Graceful Degradation      |
+| Automatización     | GNU Make (Makefile)                              |
 
 ## 🏗️ Arquitectura del Sistema
 
@@ -33,55 +34,92 @@ graph LR
 
 ### Características de Ingeniería Senior
 
-- Graceful Degradation: Implementación de un sistema de fallback automático. Si el servicio de Azure OpenAI falla o presenta latencia crítica, el sistema activa un motor determinista para asegurar la continuidad del servicio.
+- **Graceful Degradation:** Implementación de un sistema de fallback automático. Si el servicio de Azure OpenAI falla o presenta latencia crítica, el sistema activa un motor determinista para asegurar la continuidad del servicio.
 
-- Procesamiento Asíncrono: Flujo de datos no bloqueante (async/await) para optimizar recursos y mejorar la experiencia de usuario.
+- **Procesamiento Asíncrono:** Flujo de datos no bloqueante (async/await) para optimizar recursos y mejorar la experiencia de usuario.
 
 ## 📂 Estructura del Proyecto
 
 ```bash
 Hackathon-Innovation-Challenge-2026
+├─ Makefile             # Comandos de automatización
+├─ README.md            # Documentación (EN)
+├─ README.es.md         # Documentación (ES)
+├─ pyproject.toml       # Configuración de dependencias (uv)
 ├─ src/
-│  ├─ api/          # Endpoints de FastAPI (routes.py)
-│  ├─ core/         # Lógica central e IA (kernel_client.py)
-│  ├─ models/       # Esquemas de Pydantic (schemas.py)
-│  ├─ ui/           # Interfaz de usuario (app.py)
-│  └─ main.py       # Punto de entrada de la API
-├─ test/            # Suite de pruebas (test_kernel.py)
-├─ pyproject.toml   # Configuración de dependencias (uv)
-└─ README.md
+│  ├─ api/              # Endpoints de FastAPI (routes.py)
+│  ├─ core/             # Lógica central e IA (kernel_client.py, config.py)
+│  ├─ models/           # Esquemas de Pydantic (schemas.py)
+│  ├─ ui/               # Interfaz de usuario (app.py)
+│  └─ main.py           # Punto de entrada de la API
+├─ test/                # Suite de pruebas (test_kernel.py)
+└─ uv.lock              # Lockfile de dependencias
 ```
 
 ## 🚦 Instalación y Ejecución
 
-1. **Preparar el Envorn (con uv)**
+1. Preparar el Entorno (con uv)
 
-   Sincronizar dependencias y crear entorno virtual
+   Sincroniza las dependencias y crea un entorno virtual.
+
+   **Usando Makefile:**
+
+   ```bash
+   make setup
+   ```
+
+   **Instalación Manual:**
 
    ```bash
    uv sync
-   source .venv/bin/activate  # En Windows: .venv\Scripts\activate
+   source .venv/bin/activate # En Windows: .venv\Scripts\activate
    ```
 
-2. **Validación (Testing)**
+2. Validación (Testing)
 
-   Verifica que el motor de IA y el sistema de respaldo (Mock) responden correctamente antes del despliegue:
+   Verifica que el motor de IA y el sistema de respaldo respondan correctamente antes del despliegue:
+
+   **Usando Makefile:**
+
+   ```bash
+   make test
+   ```
+
+   **Ejecución Manual:**
 
    ```bash
    python -m test.test_kernel
    ```
 
-3. **Lanzamiento del Sistema**
+3. Lanzamiento del Sistema
 
-   **Backend (API):**
+   La aplicación requiere que tanto el Backend como el Frontend estén activos simultáneamente.
+
+   **Backend (API)**
+
+   **Usando Makefile:**
+
+   ```bash
+   make api
+   ```
+
+   **Ejecución Manual:**
 
    ```bash
    uvicorn src.main:app --reload
    ```
 
-   **Frontend (UI):**
+   **Frontend (UI)**
 
-   Ejecutar desde la raíz del proyecto
+   Ejecutar desde la raíz del proyecto.
+
+   **Usando Makefile:**
+
+   ```bash
+   make ui
+   ```
+
+   **Ejecución Manual:**
 
    ```bash
    streamlit run src/ui/app.py

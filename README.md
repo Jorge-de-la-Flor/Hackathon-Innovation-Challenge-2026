@@ -19,6 +19,7 @@ Our mission is to eliminate barriers to understanding technical and administrati
 | Frontend           | Streamlit (Accessible interface in src/ui)       |
 | Package Manager    | uv (Fast Python package installer)               |
 | Architecture       | Clean Architecture with Graceful Degradation     |
+| Automation         | GNU Make (Makefile)                              |
 
 ## 🏗️ System Architecture
 
@@ -33,55 +34,92 @@ graph LR
 
 ### Senior Engineering Features
 
-- Graceful Degradation: Implementation of an automatic fallback system. If the Azure OpenAI service fails or experiences critical latency, the system activates a deterministic engine to ensure service continuity.
+- **Graceful Degradation:** Implementation of an automatic fallback system. If the Azure OpenAI service fails or experiences critical latency, the system activates a deterministic engine to ensure service continuity.
 
-- Asynchronous Processing: Non-blocking data flow (async/await) to optimize resources and improve user experience.
+- **Asynchronous Processing:** Non-blocking data flow (async/await) to optimize resources and improve user experience.
 
 ## 📂 Project Structure
 
 ```bash
 Hackathon-Innovation-Challenge-2026
+├─ Makefile             # Automation commands
+├─ README.md            # Documentation (EN)
+├─ README.es.md         # Documentation (ES)
+├─ pyproject.toml       # Dependency Configuration (uv)
 ├─ src/
-│ ├─ api/           # FastAPI Endpoints (routes.py)
-│ ├─ core/          # Core Logic and AI (kernel_client.py)
-│ ├─ models/        # Pydantic Schemas (schemas.py)
-│ ├─ ui/            # User Interface (app.py)
-│ └─ main.py        # API Entry Point
-├─ test/            # Test Suite (test_kernel.py)
-├─ pyproject.toml   # Dependency Configuration (uv)
-└─ README.md
+│  ├─ api/              # FastAPI Endpoints (routes.py)
+│  ├─ core/             # Core Logic & AI (kernel_client.py, config.py)
+│  ├─ models/           # Pydantic Schemas (schemas.py)
+│  ├─ ui/               # User Interface (app.py)
+│  └─ main.py           # API Entry Point
+├─ test/                # Test Suite (test_kernel.py)
+└─ uv.lock              # Lockfile for reproducibility
 ```
 
 ## 🚦 Installation and Execution
 
-1. **Prepare the Environment (with uv)**
+1. Prepare the Environment (with uv)
 
-   Sync dependencies and create a virtual environment
+   Sync dependencies and create a virtual environment.
+
+   **Using Makefile:**
+
+   ```bash
+   make setup
+   ```
+
+   **Manual Setup:**
 
    ```bash
    uv sync
    source .venv/bin/activate # On Windows: .venv\Scripts\activate
    ```
 
-2. **Validation (Testing)**
+2. Validation (Testing)
 
-   Verify that the AI ​​engine and the mock system are responding correctly before deployment:
+   Verify that the AI engine and the mock system are responding correctly before deployment:
+
+   **Using Makefile:**
+
+   ```bash
+   make test
+   ```
+
+   **Manual Execution:**
 
    ```bash
    python -m test.test_kernel
    ```
 
-3. **System Launch**
+3. System Launch
 
-   **Backend (API):**
+   The application requires both the Backend and Frontend to be running.
+
+   **Backend (API)**
+
+   **Using Makefile:**
+
+   ```bash
+   make api
+   ```
+
+   **Manual Execution:**
 
    ```bash
    uvicorn src.main:app --reload
    ```
 
-   **Frontend (UI):**
+   **Frontend (UI)**
 
-   Run from the project root
+   Run from the project root.
+
+   **Using Makefile:**
+
+   ```bash
+   make ui
+   ```
+
+   **Manual Execution:**
 
    ```bash
    streamlit run src/ui/app.py
