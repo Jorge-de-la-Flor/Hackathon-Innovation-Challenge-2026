@@ -1,3 +1,5 @@
+# License
+
 Unlike other hackathon projects, this solution is not a fork or a copy of any existing repositories. The resilience architecture (Graceful Degradation), the orchestration engine based on Semantic Kernel, and the processing logic have been designed from scratch as a piece of proprietary engineering.
 
 🚫 Anti-Fork Usage Restrictions
