@@ -1,0 +1,13 @@
+Unlike other hackathon projects, this solution is not a fork or a copy of any existing repositories. The resilience architecture (Graceful Degradation), the orchestration engine based on Semantic Kernel, and the processing logic have been designed from scratch as a piece of proprietary engineering.
+
+🚫 Anti-Fork Usage Restrictions
+
+- Prohibition of unauthorized forks: Any duplication, distribution, or commercial use of the source code contained in this repository is strictly prohibited without the prior express written consent of the author.
+- Architecture rights: All rights over the failover logic and the system design are not available for free use. Any attempt to recreate this variant under another name, whether partially or fully, will be considered an infringement of intellectual property rights.
+
+A diferencia de otros proyectos de hackathon, esta solución no es un fork ni una copia de repositorios existentes. La arquitectura de resiliencia (Graceful Degradation), el motor de orquestación basado en Semantic Kernel y la lógica de procesamiento han sido diseñados desde cero como una pieza de ingeniería propietaria.
+
+🚫 Restricciones de uso (Anti-Fork)
+
+- Prohibición de forks no autorizados: Queda estrictamente prohibida la duplicación, distribución o uso comercial del código fuente contenido en este repositorio sin el consentimiento expreso y por escrito del autor.
+- Derechos de arquitectura: Todos los derechos sobre la lógica de failover y el diseño del sistema no están disponibles para uso libre. Cualquier intento de recrear esta variante bajo otro nombre, ya sea parcial o totalmente, será considerado una infracción de propiedad intelectual.
