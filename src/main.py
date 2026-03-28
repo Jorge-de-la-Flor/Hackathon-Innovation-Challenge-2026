@@ -3,18 +3,18 @@ Punto de Entrada Principal de la API - Accessibility Assistant.
 Inicializa FastAPI y orquesta los routers y middlewares.
 """
 
-import uvicorn
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from src.api.routes import router
+import uvicorn
 
 app = FastAPI(
-    title="Accessibility Assistant API",
-    version="1.0.0",
-    description="API para el procesamiento de texto y asistencia en accesibilidad cognitiva."
+    title="AccesAI - Motor de Inclusión Cognitiva",
+    description="Arquitectura de Resiliencia para TDAH y Autismo",
+    version="1.0.0"
 )
 
-# Configuración de CORS
+# CORS TOTAL: Para que cualquier frontend conecte
 app.add_middleware(
     CORSMiddleware,
     allow_origins=["*"],
@@ -23,14 +23,16 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-# Inclusión de rutas modulares
+# Registro de rutas
 app.include_router(router, prefix="/api/v1")
 
-@app.get("/health", tags=["System"])
+@app.get("/")
 async def health():
-    """Verifica el estado de salud de la API."""
-    return {"status": "ok", "service": "accessibility-assistant"}
+    return {
+        "status": "ready",
+        "mode": "hybrid_ai_resilient",
+        "message": "Sistema de Accesibilidad Cognitiva Activo"
+    }
 
 if __name__ == "__main__":
-    uvicorn.run("src.main:app", host="0.0.0.0", port=8000, reload=True)
-    
+    uvicorn.run(app, host="0.0.0.0", port=8000)
