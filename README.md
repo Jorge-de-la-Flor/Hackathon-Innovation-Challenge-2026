@@ -56,6 +56,17 @@ Hackathon-Innovation-Challenge-2026
 └─ uv.lock              # Lockfile for reproducibility
 ```
 
+## 🚀 Quick Start
+
+1. **Backend:** `make setup` y luego `make api` (Puerto 3000).
+2. **Extensión:** Carga la carpeta `AccesAI_extension` en `chrome://extensions/`.
+
+## 🛠️ Tech Stack
+
+- **Backend:** Python 3.12 + FastAPI + Semantic Kernel.
+- **Frontend:** Angular 17 (Compilado para Chrome Extension V3).
+- **Future:** Roadmap para migración de módulos críticos a **Rust (WASM)** para ejecución en el Edge.
+
 ## 🚦 Installation and Execution
 
 1. Prepare the Environment (with uv)
@@ -133,3 +144,65 @@ Hackathon-Innovation-Challenge-2026
 | AI Specialist / FastAPI Concept       | Lidya Marín                  |
 
 Made with ❤️ by Team 7 to make information more accessible to everyone.
+
+```
+Hackathon-Innovation-Challenge-2026
+├─ .python-version
+├─ AccesAI_extension
+│  └─ manifest.json
+├─ LICENSE
+├─ Makefile
+├─ README.es.md
+├─ README.md
+├─ TODO.md
+├─ public
+│  └─ access.ico
+├─ pyproject.toml
+├─ src
+│  ├─ __init__.py
+│  ├─ api
+│  │  ├─ __init__.py
+│  │  ├─ compatibility.py
+│  │  └─ routes.py
+│  ├─ core
+│  │  ├─ __init__.py
+│  │  ├─ config.py
+│  │  └─ kernel_client.py
+│  ├─ docs
+│  ├─ main.py
+│  ├─ minimalist_example.py
+│  ├─ models
+│  │  ├─ __init__.py
+│  │  └─ schemas.py
+│  ├─ ui
+│  │  ├─ __init__.py
+│  │  └─ app.py
+│  └─ utils
+│     └─ __init__.py
+├─ test
+│  └─ test_kernel.py
+├─ uv.lock
+└─ web_ui
+   ├─ app
+   │  ├─ app.component.html
+   │  ├─ app.component.scss
+   │  ├─ app.component.ts
+   │  ├─ app.config.ts
+   │  ├─ app.routes.ts
+   │  ├─ components
+   │  │  └─ task-breakdown
+   │  │     ├─ task-breakdown.component.html
+   │  │     ├─ task-breakdown.component.scss
+   │  │     └─ task-breakdown.component.ts
+   │  ├─ pages
+   │  │  └─ dashboard
+   │  │     ├─ dashboard.component.html
+   │  │     ├─ dashboard.component.scss
+   │  │     └─ dashboard.component.ts
+   │  └─ services
+   │     └─ ai.service.ts
+   ├─ index.html
+   ├─ main.ts
+   └─ styles.scss
+
+```
